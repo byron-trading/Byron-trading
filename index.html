@@ -3,64 +3,291 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BYRON TRADING</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Byron Trading</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #080b12;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 500px;
+      background: #111722;
+      border: 1px solid #293142;
+      border-radius: 24px;
+      padding: 28px 22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45);
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .logo h1 {
+      font-size: 30px;
+      letter-spacing: 1px;
+    }
+
+    .logo span {
+      color: #18d9a3;
+    }
+
+    .logo p {
+      color: #8993a6;
+      margin-top: 7px;
+      font-size: 13px;
+    }
+
+    .status {
+      background: #0c111b;
+      border: 1px solid #252d3c;
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 20px;
+    }
+
+    .status-title {
+      color: #8993a6;
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    #status {
+      font-size: 15px;
+      color: #18d9a3;
+    }
+
+    .login-btn {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 16px;
+      background: #18d9a3;
+      color: #06100d;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 22px;
+    }
+
+    .login-btn:active {
+      transform: scale(0.98);
+    }
+
+    .section-title {
+      font-size: 14px;
+      color: #8993a6;
+      margin-bottom: 12px;
+    }
+
+    .markets {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .market {
+      background: #0c111b;
+      border: 1px solid #252d3c;
+      border-radius: 13px;
+      padding: 14px;
+    }
+
+    .market strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .market small {
+      color: #8993a6;
+    }
+
+    .notice {
+      margin-top: 22px;
+      padding: 13px;
+      border-radius: 12px;
+      background: #171d29;
+      color: #9da7b9;
+      font-size: 12px;
+      line-height: 1.5;
+      text-align: center;
+    }
+  </style>
 </head>
 
 <body>
 
-  <header>
-    <h1>BYRON TRADING</h1>
-    <p>Smart Trading Platform</p>
-  </header>
+  <div class="app">
 
-  <main>
+    <div class="logo">
+      <h1>BYRON <span>TRADING</span></h1>
+      <p>Smart Deriv Trading Platform</p>
+    </div>
 
-    <section class="balance-card">
-      <p>Account Balance</p>
-      <h2>$10.00</h2>
-      <span>Demo Mode</span>
-    </section>
+    <div class="status">
+      <div class="status-title">CONNECTION STATUS</div>
+      <div id="status">Ready to connect to Deriv</div>
+    </div>
 
-    <section class="market-card">
-      <h3>Market</h3>
+    <button class="login-btn" onclick="connectDeriv()">
+      CONNECT DERIV ACCOUNT
+    </button>
 
-      <div class="market-row">
-        <strong>XAUUSD</strong>
-        <span>Gold / USD</span>
+    <div class="section-title">
+      VOLATILITY MARKETS
+    </div>
+
+    <div class="markets">
+      <div class="market">
+        <strong>Volatility 10</strong>
+        <small>Deriv Index</small>
       </div>
 
-      <div class="price">
-        $4,285.90
+      <div class="market">
+        <strong>Volatility 25</strong>
+        <small>Deriv Index</small>
       </div>
 
-      <p class="status">Market data will appear here</p>
-    </section>
+      <div class="market">
+        <strong>Volatility 50</strong>
+        <small>Deriv Index</small>
+      </div>
 
-    <section class="trade-card">
-      <h3>Trade</h3>
+      <div class="market">
+        <strong>Volatility 75</strong>
+        <small>Deriv Index</small>
+      </div>
 
-      <label>Contract Type</label>
+      <div class="market">
+        <strong>Volatility 100</strong>
+        <small>Deriv Index</small>
+      </div>
 
-      <select>
-        <option>Even</option>
-        <option>Odd</option>
-        <option>Over</option>
-        <option>Under</option>
-      </select>
+      <div class="market">
+        <strong>Volatility 150+</strong>
+        <small>Deriv Index</small>
+      </div>
+    </div>
 
-      <label>Stake</label>
+    <div class="notice">
+      Demo testing comes first. Real-money trading will only be enabled
+      after the connection and strategy have been properly tested.
+    </div>
 
-      <input type="number" value="1" min="0.35">
+  </div>
 
-      <button class="trade-button">START TRADE</button>
-    </section>
+  <script>
+    const CLIENT_ID = "34BLat5V5g06QgWRSY4wC";
+    const REDIRECT_URI = "https://byron-trading.vercel.app/";
 
-  </main>
+    function randomString(length = 64) {
+      const chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
 
-  <footer>
-    <p>BYRON TRADING © 2026</p>
-  </footer>
+      const values = new Uint8Array(length);
+      crypto.getRandomValues(values);
+
+      return Array.from(values)
+        .map(v => chars[v % chars.length])
+        .join("");
+    }
+
+    async function createCodeChallenge(verifier) {
+      const data = new TextEncoder().encode(verifier);
+
+      const hash = await crypto.subtle.digest("SHA-256", data);
+
+      return btoa(String.fromCharCode(...new Uint8Array(hash)))
+        .replace(/\+/g, "-")
+        .replace(/\//g, "_")
+        .replace(/=+$/, "");
+    }
+
+    async function connectDeriv() {
+      try {
+        document.getElementById("status").textContent =
+          "Preparing secure Deriv connection...";
+
+        const codeVerifier = randomString(64);
+        const state = randomString(32);
+
+        const codeChallenge =
+          await createCodeChallenge(codeVerifier);
+
+        sessionStorage.setItem(
+          "pkce_code_verifier",
+          codeVerifier
+        );
+
+        sessionStorage.setItem(
+          "oauth_state",
+          state
+        );
+
+        const authUrl =
+          new URL("https://auth.deriv.com/oauth2/auth");
+
+        authUrl.searchParams.set(
+          "response_type",
+          "code"
+        );
+
+        authUrl.searchParams.set(
+          "client_id",
+          CLIENT_ID
+        );
+
+        authUrl.searchParams.set(
+          "redirect_uri",
+          REDIRECT_URI
+        );
+
+        authUrl.searchParams.set(
+          "scope",
+          "trade"
+        );
+
+        authUrl.searchParams.set(
+          "state",
+          state
+        );
+
+        authUrl.searchParams.set(
+          "code_challenge",
+          codeChallenge
+        );
+
+        authUrl.searchParams.set(
+          "code_challenge_method",
+          "S256"
+        );
+
+        window.location.href = authUrl.toString();
+
+      } catch (error) {
+        console.error(error);
+
+        document.getElementById("status").textContent =
+          "Connection setup failed.";
+      }
+    }
+  </script>
 
 </body>
 </html>
