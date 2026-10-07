@@ -1,12 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Byron Trading</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BYRON TRADING</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
+
+  <header>
     <h1>BYRON TRADING</h1>
-    <p>Welcome to your trading platform.</p>
+    <p>Smart Trading Platform</p>
+  </header>
+
+  <main>
+
+    <section class="balance-card">
+      <p>Account Balance</p>
+      <h2>$10.00</h2>
+      <span>Demo Mode</span>
+    </section>
+
+    <section class="market-card">
+      <h3>Market</h3>
+
+      <div class="market-row">
+        <strong>XAUUSD</strong>
+        <span>Gold / USD</span>
+      </div>
+
+      <div class="price">
+        $4,285.90
+      </div>
+
+      <p class="status">Market data will appear here</p>
+    </section>
+
+    <section class="trade-card">
+      <h3>Trade</h3>
+
+      <label>Contract Type</label>
+
+      <select>
+        <option>Even</option>
+        <option>Odd</option>
+        <option>Over</option>
+        <option>Under</option>
+      </select>
+
+      <label>Stake</label>
+
+      <input type="number" value="1" min="0.35">
+
+      <button class="trade-button">START TRADE</button>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>BYRON TRADING © 2026</p>
+  </footer>
+
 </body>
 </html>
