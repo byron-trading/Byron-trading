@@ -219,68 +219,9 @@ https://byron-trading.vercel.app/api/oauth/callback
         .replace(/=+$/, "");
     }
 
-    async function connectDeriv() {
-      try {
-        document.getElementById("status").textContent =
-          "Preparing secure Deriv connection...";
-
-        const codeVerifier = randomString(64);
-        const state = randomString(32);
-
-        const codeChallenge =
-          await createCodeChallenge(codeVerifier);
-
-        sessionStorage.setItem(
-          "pkce_code_verifier",
-          codeVerifier
-        );
-
-        sessionStorage.setItem(
-          "oauth_state",
-          state
-        );
-
-        const authUrl =
-          new URL("https://auth.deriv.com/oauth2/auth");
-
-        authUrl.searchParams.set(
-          "response_type",
-          "code"
-        );
-
-        authUrl.searchParams.set(
-          "client_id",
-          CLIENT_ID
-        );
-
-        authUrl.searchParams.set(
-          "redirect_uri",
-          REDIRECT_URI
-        );
-
-        authUrl.searchParams.set(
-          "scope",
-          "trade"
-        );
-
-        authUrl.searchParams.set(
-          "state",
-          state
-        );
-
-        authUrl.searchParams.set(
-          "code_challenge",
-          codeChallenge
-        );
-
-        authUrl.searchParams.set(
-          "code_challenge_method",
-          "S256"
-        );
-
-        window.location.href = authUrl.toString();
-
-      } catch (error) {
+    function connectDeriv() {
+  window.location.href = "/api/oauth/start";
+} catch (error) {
         console.error(error);
 
         document.getElementById("status").textContent =
